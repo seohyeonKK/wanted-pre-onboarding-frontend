@@ -6,10 +6,19 @@ const MainPage = () => {
     <div>
       <h1>main</h1>
       <button
+        type="button"
         onClick={() => {
           navigate('/signin')
         }}>
-        로그인하러가기
+        로그인
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          navigate('/signup')
+        }}>
+        회원가입
       </button>
     </div>
   )

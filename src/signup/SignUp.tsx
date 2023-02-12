@@ -14,7 +14,7 @@ const SignUp = () => {
     const result = await postSignUp(userId, userPw)
     console.log(result)
     if (result && result.status === 201) navigate('/signin')
-  }, [userId, userPw])
+  }, [userId, userPw, navigate])
 
   useEffect(() => {
     if (userId.includes('@') && userPw.length >= MIN_PW_LENGTH) setIsValid(true)

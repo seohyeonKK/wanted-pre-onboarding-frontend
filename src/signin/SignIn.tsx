@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from 'react'
 import SignInForm from 'common/SignInForm'
 import { MIN_PW_LENGTH } from 'common/constant'
 import { useNavigate } from 'react-router'
-import { postSignIn } from '../api/auth'
+import { postSignIn } from 'api/auth'
+import { setJWTToken } from 'common/util'
 
 const SignIn = () => {
   const [userId, setUserId] = useState('')
@@ -12,9 +13,11 @@ const SignIn = () => {
 
   const submit = useCallback(async () => {
     const result = await postSignIn(userId, userPw)
-    console.log(result)
-    if (result && result.status === 200) navigate('/')
-  }, [userId, userPw])
+    if (result && result.status === 200) {
+      setJWTToken(result.data.access_token)
+      navigate('/todo')
+    }
+  }, [userId, userPw, navigate])
 
   useEffect(() => {
     if (userId.includes('@') && userPw.length >= MIN_PW_LENGTH) setIsValid(true)

@@ -1,4 +1,21 @@
+import { useNavigate } from 'react-router'
+import { useCallback, useEffect } from 'react'
+import { getJWTToken } from './util'
+
+// TODO: token 저장된 상태로 Signin->todo 이동시 번쩍임
+
 const SignInForm = (props: { userId: string; userPw: string; setUserId: Function; setUserPw: Function }) => {
+  const navigate = useNavigate()
+
+  const redirect = useCallback(() => {
+    const token: string = getJWTToken()
+    if (token.length > 0) navigate('/todo', { replace: true })
+  }, [navigate])
+
+  useEffect(() => {
+    redirect()
+  }, [redirect])
+
   return (
     <div>
       <form>

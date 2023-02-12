@@ -1,4 +1,4 @@
-import Send from './Send'
+import Send from 'api/Send'
 
 export const postSignUp = (email: string, password: string) => {
   return Send({

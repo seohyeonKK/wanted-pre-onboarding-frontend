@@ -1,7 +1,7 @@
-import Routers from "./Routers";
+import Routers from 'Routers'
 
 const App = () => {
-  return(
+  return (
     <div className="App">
       <Routers />
     </div>

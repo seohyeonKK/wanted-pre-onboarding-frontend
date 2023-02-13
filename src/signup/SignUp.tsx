@@ -13,7 +13,10 @@ const SignUp = () => {
   const submit = useCallback(async () => {
     const result = await postSignUp(userId, userPw)
     console.log(result)
-    if (result && result.status === 201) navigate('/signin')
+    if (result && result.status === 201) {
+      window.alert('회원가입이 완료되었습니다.')
+      navigate('/signin')
+    }
   }, [userId, userPw, navigate])
 
   useEffect(() => {

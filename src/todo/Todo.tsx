@@ -1,62 +1,85 @@
 import { useNavigate } from 'react-router'
 import { useCallback, useEffect, useState } from 'react'
-import { getJWTToken } from 'common/util'
+import { getJWTToken, getUserId } from 'common/util'
+import {
+  craeteTodo as createTodoApi,
+  deleteTodo as deleteTodoApi,
+  getTodos as getTodosApi,
+  updateTodo as updateTodoApi,
+} from 'api/todo'
+import Send from '../api/Send'
 
 export type todoType = {
   id: number
-  content: string
-  checked: boolean
+  todo: string
+  isCompleted: boolean
+  userId: number
 }
 
 const Todo = () => {
   const navigate = useNavigate()
   const [todos, setTodos] = useState<Array<todoType>>([])
-  const [newTodo, setNewTodo] = useState<string>('')
-  const [todoCnt, setTodoCnt] = useState<number>(0)
-  const [modiNum, setModiNum] = useState<number>(-1)
-  const [modiContent, setModiContent] = useState<string>('')
+  const [todoContent, setTodoContent] = useState<string>('')
+  const [updateId, setUpdateId] = useState<number>(-1)
+  const [updateContent, setUpdateContent] = useState<string>('')
 
   const redirect = useCallback(() => {
     const token: string = getJWTToken()
-    if (token === null) navigate('/signin', { replace: true })
+    if (token) {
+      Send.defaults.headers.authorization = `Bearer ${token}`
+      getTodos()
+    }
+    if (!token) navigate('/signin', { replace: true })
   }, [navigate])
 
-  const addTodo = () => {
-    const addNewTodo = {
-      id: todoCnt,
-      content: newTodo,
-      checked: false,
-    }
-    setTodos([...todos, addNewTodo])
-    setTodoCnt((prev) => prev + 1)
-    setNewTodo('')
+  const getTodos = async () => {
+    const res = await getTodosApi()
+    const userId = getUserId()
+    console.log(res.data)
+    if (res && res.status === 200) setTodos(res.data.filter((todo) => todo.userId === userId))
   }
-  const deleteTodo = (id: number) => {
+
+  const createTodo = async () => {
+    const res = await createTodoApi(todoContent)
+    if (res && res.status === 201) setTodos([...todos, res.data])
+    setTodoContent('')
+  }
+
+  const deleteTodo = async (id: number) => {
+    const res = await deleteTodoApi(id)
+    if (res) console.log(res)
     setTodos((prev) => prev.filter((todo) => todo.id !== id))
   }
 
-  const modifyTodo = (modiTodo: todoType) => {
+  const updateTodo = async (target: todoType) => {
+    const res = await updateTodoApi(target)
+    if (res) console.log(res)
+
+    setTodos((prev) =>
+      prev.map((todo) => {
+        if (target.id === todo.id) todo.todo = updateContent
+        return todo
+      }),
+    )
+  }
+
+  const update = (target: todoType) => {
     return (
-      <div key={modiTodo.id}>
+      <div key={target.id}>
         <li>
           <label>
             <input type="checkbox" />
           </label>
-          <input data-testid="modify-input" value={modiContent} onChange={(e) => setModiContent(e.target.value)} />
+          <input data-testid="modify-input" value={updateContent} onChange={(e) => setUpdateContent(e.target.value)} />
           <button
             data-testid="submit-button"
             onClick={() => {
-              setTodos((prev) =>
-                prev.map((todo) => {
-                  if (modiTodo.id === todo.id) todo.content = modiContent
-                  return todo
-                }),
-              )
-              setModiNum(-1)
+              updateTodo(target)
+              setUpdateId(-1)
             }}>
             제출
           </button>
-          <button data-testid="cancel-button" onClick={() => setModiNum(-1)}>
+          <button data-testid="cancel-button" onClick={() => setUpdateId(-1)}>
             취소
           </button>
         </li>
@@ -65,27 +88,30 @@ const Todo = () => {
   }
 
   const drawTodos = todos.map((todo: todoType) => {
-    return todo.id === modiNum ? (
-      modifyTodo(todo)
-    ) : (
-      <li key={todo.id}>
-        <label>
-          <input type="checkbox" />
-          <span>{todo.content}</span>
-        </label>
-        <button
-          data-testid="modify-button"
-          onClick={() => {
-            setModiNum(todo.id)
-            setModiContent(todo.content)
-          }}>
-          수정
-        </button>
-        <button type="button" data-testid="delete-button" onClick={() => deleteTodo(todo.id)}>
-          삭제
-        </button>
-      </li>
-    )
+    if (todo.userId === getUserId()) {
+      return todo.id === updateId ? (
+        update(todo)
+      ) : (
+        <li key={todo.id}>
+          <label>
+            <input type="checkbox" />
+            <span>{todo.todo}</span>
+          </label>
+          <button
+            data-testid="modify-button"
+            onClick={() => {
+              setUpdateId(todo.id)
+              setUpdateContent(todo.todo)
+              update(todo)
+            }}>
+            수정
+          </button>
+          <button type="button" data-testid="delete-button" onClick={() => deleteTodo(todo.id)}>
+            삭제
+          </button>
+        </li>
+      )
+    } else return null
   })
 
   useEffect(() => {
@@ -96,8 +122,8 @@ const Todo = () => {
     <div>
       <h1>Todo</h1>
       {drawTodos}
-      <input data-testid="new-todo-input" value={newTodo} onChange={(e) => setNewTodo(e.target.value)} />
-      <button data-testid="new-todo-add-button" onClick={addTodo}>
+      <input data-testid="new-todo-input" value={todoContent} onChange={(e) => setTodoContent(e.target.value)} />
+      <button data-testid="new-todo-add-button" onClick={createTodo}>
         추가
       </button>
     </div>

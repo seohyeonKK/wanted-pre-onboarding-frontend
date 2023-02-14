@@ -67,6 +67,7 @@ const SignIn = (props: { option: string }) => {
             className={styles.signInBtn}
             type="button"
             disabled={!isValid}
+            data-testid={SignInOption.SIGNIN ? 'signin-button' : 'signup-button'}
             onClick={props.option === SignInOption.SIGNIN ? signIn : signUp}>
             {props.option}
           </button>

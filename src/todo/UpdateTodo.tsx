@@ -22,6 +22,7 @@ const UpdateTodo = (props: { todo: todoType; setTodos: Function; setUpdateId: Fu
   const updateChecked = async (target: todoType) => {
     const res = await updateTodoApi(target)
     if (res && res.status === 200) {
+      props.todo.isCompleted = !props.todo.isCompleted
       props.setTodos((prev) =>
         prev.map((todo) => {
           if (target.id === todo.id) todo.isCompleted = !todo.isCompleted

@@ -66,7 +66,7 @@ const TodoPage = () => {
       />
 
       <h1 className={styles.title}>My Todo List</h1>
-      <form className={styles.inputForm}>
+      <div className={styles.inputForm}>
         <input
           className={styles.input}
           data-testid="new-todo-input"
@@ -76,7 +76,7 @@ const TodoPage = () => {
         <button type="button" className={styles.createBtn} data-testid="new-todo-add-button" onClick={createTodo}>
           추가
         </button>
-      </form>
+      </div>
       {drawTodos}
     </div>
   )

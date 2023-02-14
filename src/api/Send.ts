@@ -6,7 +6,7 @@ const token: string = getJWTToken()
 axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : ''
 
 const instance = axios.create({
-  baseURL: 'http://localhost:8000/',
+  baseURL: 'https://pre-onboarding-selection-task.shop/',
   headers: {
     Authorization: token ? `Bearer ${token}` : '',
   },

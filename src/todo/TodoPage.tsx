@@ -56,6 +56,7 @@ const TodoPage = () => {
   return (
     <div className={styles.main}>
       <img
+        alt={'sign-out'}
         className={styles.logout}
         src={'https://cdn-icons-png.flaticon.com/128/660/660350.png'}
         onClick={() => {

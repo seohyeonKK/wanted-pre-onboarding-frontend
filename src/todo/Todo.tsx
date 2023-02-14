@@ -7,19 +7,19 @@ const Todo = (props: { todo: todoType; setUpdateId: Function; setTodos: Function
   const [isCompleted, setIsCompleted] = useState<boolean>(props.todo.isCompleted)
   const deleteTodo = async (id: number) => {
     const res = await deleteTodoApi(id)
-    if (res) console.log(res)
-    props.setTodos((prev) => prev.filter((todo) => todo.id !== id))
+    if (res && res.status === 204) props.setTodos((prev) => prev.filter((todo) => todo.id !== id))
   }
 
   const updateChecked = async (target: todoType) => {
     const res = await updateTodoApi(target)
-    if (res) console.log(res)
-    props.setTodos((prev) =>
-      prev.map((todo) => {
-        if (target.id === todo.id) todo.isCompleted = !todo.isCompleted
-        return todo
-      }),
-    )
+    if (res && res.status === 200) {
+      props.setTodos((prev) =>
+        prev.map((todo) => {
+          if (target.id === todo.id) todo.isCompleted = !todo.isCompleted
+          return todo
+        }),
+      )
+    }
   }
 
   return (

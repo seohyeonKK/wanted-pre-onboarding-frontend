@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import SignInForm from 'common/SignInForm'
+import SignInForm from 'signin/SignInForm'
 import { MIN_PW_LENGTH } from 'common/constant'
 import { useNavigate } from 'react-router'
 import { postSignIn } from 'api/auth'

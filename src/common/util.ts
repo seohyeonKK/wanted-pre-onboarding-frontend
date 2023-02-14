@@ -7,6 +7,10 @@ export const setJWTToken = (token: string) => {
   localStorage.setItem('JWT', token)
 }
 
+export const removeJWTToken = () => {
+  localStorage.removeItem('JWT')
+}
+
 export const getUserId = () => {
   const token = getJWTToken()
   if (token) {

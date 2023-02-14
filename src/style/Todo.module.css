@@ -1,0 +1,109 @@
+.main{
+    margin: auto;
+    margin-top : 150px;
+    width : 80%;
+    max-width: 1000px;
+
+}
+
+.title{
+    display: table;
+    margin: auto;
+    font-family: 'Tenada';
+    font-size: 80px;
+    color: #4A0BA3;
+}
+
+.inputForm {
+    font-family: 'IBMPlexSansKR-Regular';
+    font-size: 45px;
+    font-weight: bold;
+
+    margin-top : 70px;
+    margin-bottom: 70px;
+    padding : 20px 20px 5px 20px;
+    background-color: transparent;
+    color: #6633CC;
+    border-bottom: 10px solid #5C1DB5;
+}
+
+.input{
+    text-align: center;
+    margin-right: 60px;
+    margin-left: 30px;
+    width: calc(100% - 210px);
+    border: none;
+    font-size: 45px;
+    font-weight: bold;
+    font-family: 'IBMPlexSansKR';
+}
+
+.checkbox {
+    transform : scale(1.5);
+}
+
+.todoContent{
+    margin-left: 15px;
+    margin-right: 15px;
+
+}
+
+
+.input:focus {outline:none;}
+
+.updateInput {
+    font-family: 'IBMPlexSansKR-Regular';
+    font-size: 30px;
+    color: #000051;
+    height:30px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.createBtn{
+    font-size: 35px;
+    font-family: 'IBMPlexSansKR-Regular';
+    border-radius: 35px 35px 4px;
+    border: 4px solid #9966FF;
+    padding : 10px;
+    color: #2A0066;
+    font-weight: bold;
+    background-color: white;
+    width: 110px;
+}
+
+.createBtn:hover {
+    background-color: #E8D9FF;
+}
+
+
+.updateBtn{
+    font-size: 15px;
+    font-family: 'IBMPlexSansKR-Regular';
+    border-radius: 15px;
+    border: 2px solid #9966FF;
+    padding : 5px;
+    color: #2A0066;
+    font-weight: bold;
+    background-color: white;
+    margin-right : 5px;
+}
+
+.updateBtn:hover {
+    background-color: #E8D9FF;
+}
+
+.todos{
+    font-family: 'IBMPlexSansKR-Regular';
+    font-size: 30px;
+    color: #000051;
+}
+
+.logout{
+    float: right;
+    margin-top: -100px;
+    margin-right: -150px;
+    width : 50px;
+    cursor: pointer;
+}
+

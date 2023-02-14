@@ -1,5 +1,5 @@
 import Send from 'api/Send'
-import { todoType } from 'todo/Todo'
+import { todoType } from '../common/constant'
 
 export const craeteTodo = (content: string) => {
   return Send({

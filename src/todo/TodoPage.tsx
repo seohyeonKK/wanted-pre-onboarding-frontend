@@ -1,27 +1,18 @@
 import { useNavigate } from 'react-router'
 import { useCallback, useEffect, useState } from 'react'
-import { getJWTToken, getUserId } from 'common/util'
-import {
-  craeteTodo as createTodoApi,
-  deleteTodo as deleteTodoApi,
-  getTodos as getTodosApi,
-  updateTodo as updateTodoApi,
-} from 'api/todo'
-import Send from '../api/Send'
+import { getJWTToken, getUserId, removeJWTToken } from 'common/util'
+import { craeteTodo as createTodoApi, getTodos as getTodosApi } from 'api/todo'
+import Send from 'api/Send'
+import UpdateTodo from 'todo/UpdateTodo'
+import Todo from 'todo/Todo'
+import { todoType } from 'common/constant'
+import styles from 'style/Todo.module.css'
 
-export type todoType = {
-  id: number
-  todo: string
-  isCompleted: boolean
-  userId: number
-}
-
-const Todo = () => {
+const TodoPage = () => {
   const navigate = useNavigate()
   const [todos, setTodos] = useState<Array<todoType>>([])
   const [todoContent, setTodoContent] = useState<string>('')
   const [updateId, setUpdateId] = useState<number>(-1)
-  const [updateContent, setUpdateContent] = useState<string>('')
 
   const redirect = useCallback(() => {
     const token: string = getJWTToken()
@@ -35,7 +26,6 @@ const Todo = () => {
   const getTodos = async () => {
     const res = await getTodosApi()
     const userId = getUserId()
-    console.log(res.data)
     if (res && res.status === 200) setTodos(res.data.filter((todo) => todo.userId === userId))
   }
 
@@ -45,71 +35,16 @@ const Todo = () => {
     setTodoContent('')
   }
 
-  const deleteTodo = async (id: number) => {
-    const res = await deleteTodoApi(id)
-    if (res) console.log(res)
-    setTodos((prev) => prev.filter((todo) => todo.id !== id))
-  }
-
-  const updateTodo = async (target: todoType) => {
-    const res = await updateTodoApi(target)
-    if (res) console.log(res)
-
-    setTodos((prev) =>
-      prev.map((todo) => {
-        if (target.id === todo.id) todo.todo = updateContent
-        return todo
-      }),
-    )
-  }
-
-  const update = (target: todoType) => {
-    return (
-      <div key={target.id}>
-        <li>
-          <label>
-            <input type="checkbox" />
-          </label>
-          <input data-testid="modify-input" value={updateContent} onChange={(e) => setUpdateContent(e.target.value)} />
-          <button
-            data-testid="submit-button"
-            onClick={() => {
-              updateTodo(target)
-              setUpdateId(-1)
-            }}>
-            제출
-          </button>
-          <button data-testid="cancel-button" onClick={() => setUpdateId(-1)}>
-            취소
-          </button>
-        </li>
-      </div>
-    )
-  }
-
   const drawTodos = todos.map((todo: todoType) => {
     if (todo.userId === getUserId()) {
       return todo.id === updateId ? (
-        update(todo)
+        <div className={styles.todos} key={todo.id}>
+          <UpdateTodo todo={todo} setTodos={setTodos} setUpdateId={setUpdateId} />
+        </div>
       ) : (
-        <li key={todo.id}>
-          <label>
-            <input type="checkbox" />
-            <span>{todo.todo}</span>
-          </label>
-          <button
-            data-testid="modify-button"
-            onClick={() => {
-              setUpdateId(todo.id)
-              setUpdateContent(todo.todo)
-              update(todo)
-            }}>
-            수정
-          </button>
-          <button type="button" data-testid="delete-button" onClick={() => deleteTodo(todo.id)}>
-            삭제
-          </button>
-        </li>
+        <div className={styles.todos} key={todo.id}>
+          <Todo todo={todo} setUpdateId={setUpdateId} setTodos={setTodos} />
+        </div>
       )
     } else return null
   })
@@ -119,15 +54,31 @@ const Todo = () => {
   }, [redirect])
 
   return (
-    <div>
-      <h1>Todo</h1>
+    <div className={styles.main}>
+      <img
+        className={styles.logout}
+        src={'https://cdn-icons-png.flaticon.com/128/660/660350.png'}
+        onClick={() => {
+          removeJWTToken()
+          navigate('/')
+        }}
+      />
+
+      <h1 className={styles.title}>My Todo List</h1>
+      <form className={styles.inputForm}>
+        <input
+          className={styles.input}
+          data-testid="new-todo-input"
+          value={todoContent}
+          onChange={(e) => setTodoContent(e.target.value)}
+        />
+        <button type="button" className={styles.createBtn} data-testid="new-todo-add-button" onClick={createTodo}>
+          추가
+        </button>
+      </form>
       {drawTodos}
-      <input data-testid="new-todo-input" value={todoContent} onChange={(e) => setTodoContent(e.target.value)} />
-      <button data-testid="new-todo-add-button" onClick={createTodo}>
-        추가
-      </button>
     </div>
   )
 }
 
-export default Todo
+export default TodoPage

@@ -1,17 +1,17 @@
 import MainPage from 'MainPage'
 import { Route } from 'react-router-dom'
 import { Routes } from 'react-router'
-import SignIn from 'signin/SignIn'
-import SignUp from 'signup/SignUp'
-import Todo from './todo/Todo'
+import SignInPage from 'signin/SignInPage'
+import SignUpPage from 'signup/SignUpPage'
+import TodoPage from './todo/TodoPage'
 
 const Routers = () => {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/todo" element={<Todo />} />
+      <Route path="/signin" element={<SignInPage />} />
+      <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/todo" element={<TodoPage />} />
     </Routes>
   )
 }

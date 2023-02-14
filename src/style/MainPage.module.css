@@ -1,0 +1,66 @@
+@font-face {
+    font-family: 'TTTtangsbudaejjigaeB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/TTTtangsbudaejjigaeB.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Tenada';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-2@1.0/Tenada.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'IBMPlexSansKR-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+button{
+    cursor: pointer;
+}
+
+.main{
+    margin-top : 150px;
+}
+
+.mainTitle{
+    display: table;
+    margin: auto;
+    font-family: 'Tenada';
+    font-size: 100px;
+    color: #4A0BA3;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    max-width: 1000px;
+    margin: auto;
+    margin-top: 150px;
+}
+
+.menuBtn {
+    font-family: 'IBMPlexSansKR-Regular';
+    font-size: 40px;
+    font-weight: bold;
+    border-radius: 45px;
+    border: 4px solid #9966FF;
+    padding : 20px;
+    background-color: transparent;
+    color: #6633CC;
+}
+
+.menuBtn:hover {
+    background-color: #E8D9FF;
+}

@@ -21,7 +21,6 @@ const SignIn = (props: { option: string }) => {
 
   const signUp = useCallback(async () => {
     const result = await postSignUp(userEmail, userPw)
-    console.log(result)
     if (result && result.status === 201) {
       window.alert('회원가입이 완료되었습니다.')
       navigate('/signin')

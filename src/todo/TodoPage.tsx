@@ -61,6 +61,7 @@ const TodoPage = () => {
         src={'https://cdn-icons-png.flaticon.com/128/660/660350.png'}
         onClick={() => {
           removeJWTToken()
+          window.alert('로그아웃되었습니다.')
           navigate('/')
         }}
       />
